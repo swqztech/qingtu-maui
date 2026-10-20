@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Qingtu.MainPage"
+             Title="轻图"
+             BackgroundColor="#F0FDFA">
+
+    <ScrollView Padding="20,16">
+        <VerticalStackLayout Spacing="12">
+            <Label Text="轻图" FontSize="28" FontAttributes="Bold" TextColor="#0D9488" HorizontalOptions="Center"/>
+            <Label Text="把体积压下去，细节留住" TextColor="#134E4A" HorizontalOptions="Center"/>
+            <Label Text="本地处理 · 不上传 · PNG / JPG / WebP" FontSize="11" TextColor="#5EEAD4"
+                   HorizontalOptions="Center" Margin="0,0,0,4"/>
+
+            <HorizontalStackLayout Spacing="8">
+                <Button x:Name="BtnTabCompress" Text="压缩" Clicked="OnTabCompress"/>
+                <Button x:Name="BtnTabStitch" Text="拼接" Clicked="OnTabStitch"/>
+            </HorizontalStackLayout>
+
+            <Border x:Name="DropHintBorder" BackgroundColor="White" Stroke="#0D9488" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 6" Padding="16">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Label x:Name="TxtDropHint" Text="点击下方选择图片" TextColor="#64748B" HorizontalOptions="Center"/>
+                    <Button Text="选择图片" BackgroundColor="#F97316" TextColor="White"
+                            Margin="0,10,0,0" Padding="16,8" Clicked="OnPickFiles"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="#ECFDF5" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 4"
+                    HeightRequest="100">
+                <CollectionView x:Name="FileList" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding .}" TextColor="#134E4A" Padding="8,4"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+
+            <Border x:Name="PanelCompress" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 4" Padding="14">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="56,*,36" ColumnSpacing="8">
+                        <Label Text="质量" TextColor="#64748B" VerticalOptions="Center"/>
+                        <Slider x:Name="SliderQuality" Grid.Column="1" Minimum="1" Maximum="100" Value="80"
+                                ValueChanged="OnQualityChanged"/>
+                        <Label x:Name="TxtQuality" Grid.Column="2" Text="80" TextColor="#134E4A"
+                               VerticalOptions="Center" HorizontalOptions="End"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="56,Auto,*" ColumnSpacing="8">
+                        <Label Text="最长边" TextColor="#64748B" VerticalOptions="Center"/>
+                        <Entry x:Name="TxtMaxSide" Grid.Column="1" WidthRequest="72" Text="0"
+                               BackgroundColor="#ECFDF5" TextColor="#134E4A"/>
+                        <Label Grid.Column="2" Text="px（0 = 不缩放）" TextColor="#64748B" VerticalOptions="Center"/>
+                    </Grid>
+                    <Label Text="输出格式" TextColor="#64748B"/>
+                    <HorizontalStackLayout Spacing="12">
+                        <RadioButton x:Name="FmtKeep" Content="保持原格式" IsChecked="True" TextColor="#134E4A"/>
+                        <RadioButton x:Name="FmtJpeg" Content="JPEG" TextColor="#134E4A"/>
+                        <RadioButton x:Name="FmtPng" Content="PNG" TextColor="#134E4A"/>
+                        <RadioButton x:Name="FmtWebp" Content="WebP" TextColor="#134E4A"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label x:Name="TxtStitchHint" Text="按列表顺序横向拼接，高度对齐最短边"
+                   TextColor="#64748B" IsVisible="False"/>
+
+            <CheckBox x:Name="ChkCustomOut" Text="自定义输出目录" TextColor="#134E4A"/>
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Entry x:Name="TxtOutDir" BackgroundColor="#ECFDF5" TextColor="#134E4A"/>
+                <Button Grid.Column="1" Text="浏览…" Padding="12,6" Clicked="OnPickOutDir"/>
+            </Grid>
+
+            <HorizontalStackLayout Spacing="10">
+                <Button x:Name="BtnRun" Text="开始压缩 (0)" BackgroundColor="#F97316" TextColor="White"
+                        Padding="16,8" Clicked="OnRun"/>
+                <Button Text="清空列表" Padding="14,8" Clicked="OnClear"/>
+            </HorizontalStackLayout>
+
+            <Border BackgroundColor="#ECFDF5" Stroke="#CBD5E1" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 4" MinimumHeightRequest="72" Padding="8">
+                <Editor x:Name="TxtLog" IsReadOnly="True" AutoSize="TextChanges"
+                        BackgroundColor="Transparent" TextColor="#134E4A" FontFamily="Consolas" FontSize="12"/>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
